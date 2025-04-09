@@ -8,7 +8,8 @@ import 'package:background_locator_2/location_dto.dart';
 import 'file_manager.dart';
 
 class LocationServiceRepository {
-  static final LocationServiceRepository _instance = LocationServiceRepository._();
+  static final LocationServiceRepository _instance =
+      LocationServiceRepository._();
 
   LocationServiceRepository._();
 
@@ -60,7 +61,8 @@ class LocationServiceRepository {
 
   static Future<void> setLogLabel(String label) async {
     final date = DateTime.now();
-    await FileManager.writeToLogFile('------------\n$label: ${formatDateLog(date)}\n------------\n');
+    await FileManager.writeToLogFile(
+        '------------\n$label: ${formatDateLog(date)}\n------------\n');
   }
 
   static Future<void> setLogPosition(int count, LocationDto data) async {

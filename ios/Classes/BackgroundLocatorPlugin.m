@@ -48,6 +48,10 @@ static BackgroundLocatorPlugin *instance = nil;
 
 - (void)handleMethodCall:(FlutterMethodCall *)call
                   result:(FlutterResult)result {
+    if ([call.method isEqualToString:@"PluginIsLocationServicesEnabled"]) {
+        result(@([CLLocationManager locationServicesEnabled]));
+        return;
+    }
     MethodCallHelper *callHelper = [[MethodCallHelper alloc] init];
     [callHelper handleMethodCall:call result:result delegate:self];
 }

@@ -218,6 +218,10 @@ class BackgroundLocatorPlugin
 
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
+            Keys.METHOD_PLUGIN_IS_LOCATION_SERVICES_ENABLED -> {
+                val locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as? android.location.LocationManager
+                result.success(locationManager?.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER) ?: false)
+            }
             Keys.METHOD_PLUGIN_INITIALIZE_SERVICE -> {
                 val args: Map<Any, Any>? = call.arguments()
 

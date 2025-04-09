@@ -67,12 +67,18 @@ class AndroidSettings extends LocatorSettings {
       Keys.SETTINGS_INTERVAL: interval,
       Keys.SETTINGS_DISTANCE_FILTER: distanceFilter,
       Keys.SETTINGS_ANDROID_WAKE_LOCK_TIME: wakeLockTime,
-      Keys.SETTINGS_ANDROID_NOTIFICATION_CHANNEL_NAME: androidNotificationSettings.notificationChannelName,
-      Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE: androidNotificationSettings.notificationTitle,
-      Keys.SETTINGS_ANDROID_NOTIFICATION_MSG: androidNotificationSettings.notificationMsg,
-      Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG: androidNotificationSettings.notificationBigMsg,
-      Keys.SETTINGS_ANDROID_NOTIFICATION_ICON: androidNotificationSettings.notificationIcon,
-      Keys.SETTINGS_ANDROID_NOTIFICATION_ICON_COLOR: androidNotificationSettings.notificationIconColor.colorValue,
+      Keys.SETTINGS_ANDROID_NOTIFICATION_CHANNEL_NAME:
+          androidNotificationSettings.notificationChannelName,
+      Keys.SETTINGS_ANDROID_NOTIFICATION_TITLE:
+          androidNotificationSettings.notificationTitle,
+      Keys.SETTINGS_ANDROID_NOTIFICATION_MSG:
+          androidNotificationSettings.notificationMsg,
+      Keys.SETTINGS_ANDROID_NOTIFICATION_BIG_MSG:
+          androidNotificationSettings.notificationBigMsg,
+      Keys.SETTINGS_ANDROID_NOTIFICATION_ICON:
+          androidNotificationSettings.notificationIcon,
+      Keys.SETTINGS_ANDROID_NOTIFICATION_ICON_COLOR:
+          androidNotificationSettings.notificationIconColor.colorValue,
       Keys.SETTINGS_ANDROID_LOCATION_CLIENT: client.index
     };
   }

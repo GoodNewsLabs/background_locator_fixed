@@ -51,6 +51,9 @@ class Keys {
         val METHOD_PLUGIN_UPDATE_NOTIFICATION = "LocatorPlugin.updateNotification"
 
         @JvmStatic
+        val METHOD_PLUGIN_IS_LOCATION_SERVICES_ENABLED = "PluginIsLocationServicesEnabled"
+
+        @JvmStatic
         val ARG_INIT_CALLBACK = "initCallback"
 
         @JvmStatic

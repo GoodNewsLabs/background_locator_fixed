@@ -34,11 +34,15 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    if (IsolateNameServer.lookupPortByName(LocationServiceRepository.isolateName) != null) {
-      IsolateNameServer.removePortNameMapping(LocationServiceRepository.isolateName);
+    if (IsolateNameServer.lookupPortByName(
+            LocationServiceRepository.isolateName) !=
+        null) {
+      IsolateNameServer.removePortNameMapping(
+          LocationServiceRepository.isolateName);
     }
 
-    IsolateNameServer.registerPortWithName(port.sendPort, LocationServiceRepository.isolateName);
+    IsolateNameServer.registerPortWithName(
+        port.sendPort, LocationServiceRepository.isolateName);
 
     port.listen(
       (dynamic data) async {
@@ -56,7 +60,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> updateUI(dynamic data) async {
     final log = await FileManager.readLogFile();
 
-    LocationDto? locationDto = (data != null) ? LocationDto.fromJson(data) : null;
+    LocationDto? locationDto =
+        (data != null) ? LocationDto.fromJson(data) : null;
 
     if (locationDto == null) return;
 
@@ -72,10 +77,24 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _updateNotificationText(LocationDto data) async {
     await BackgroundLocator.updateNotificationText(
-        title: "new location received", msg: "${DateTime.now()}", bigMsg: "${data.latitude}, ${data.longitude}");
+        title: "new location received",
+        msg: "${DateTime.now()}",
+        bigMsg: "${data.latitude}, ${data.longitude}");
   }
 
   Future<void> initPlatformState() async {
+    PermissionStatus locationWhenInUse =
+        await Permission.locationWhenInUse.request();
+    if (locationWhenInUse != PermissionStatus.granted) {
+      return;
+    }
+
+    PermissionStatus locationAlways = await Permission.locationAlways.request();
+
+    if (locationAlways != PermissionStatus.granted) {
+      return;
+    }
+
     print('Initializing...');
     await BackgroundLocator.initialize();
     logStr = await FileManager.readLogFile();
@@ -89,6 +108,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final isServiceEnableBtn = SizedBox(
+      width: double.maxFinite,
+      child: ElevatedButton(
+        child: Text('Is service enabled'),
+        onPressed: () {
+          _isLocationServiceEnabled();
+        },
+      ),
+    );
+
     final start = SizedBox(
       width: double.maxFinite,
       child: ElevatedButton(
@@ -129,9 +158,7 @@ class _MyAppState extends State<MyApp> {
     }
     final status = Text("Status: $msgStatus");
 
-    final log = Text(
-      logStr,
-    );
+    final log = Text(logStr);
 
     return MaterialApp(
       home: Scaffold(
@@ -144,7 +171,14 @@ class _MyAppState extends State<MyApp> {
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[start, stop, clear, status, log],
+              children: <Widget>[
+                isServiceEnableBtn,
+                start,
+                stop,
+                clear,
+                status,
+                log
+              ],
             ),
           ),
         ),
@@ -190,11 +224,15 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _startLocator() async {
     Map<String, dynamic> data = {'countInit': 1};
-    return await BackgroundLocator.registerLocationUpdate(LocationCallbackHandler.callback,
+    return await BackgroundLocator.registerLocationUpdate(
+        LocationCallbackHandler.callback,
         initCallback: LocationCallbackHandler.initCallback,
         initDataCallback: data,
         disposeCallback: LocationCallbackHandler.disposeCallback,
-        iosSettings: IOSSettings(accuracy: LocationAccuracy.NAVIGATION, distanceFilter: 0, stopWithTerminate: true),
+        iosSettings: IOSSettings(
+            accuracy: LocationAccuracy.NAVIGATION,
+            distanceFilter: 0,
+            stopWithTerminate: true),
         autoStop: false,
         androidSettings: AndroidSettings(
             accuracy: LocationAccuracy.NAVIGATION,
@@ -208,6 +246,13 @@ class _MyAppState extends State<MyApp> {
                 notificationBigMsg:
                     'Background location is on to keep the app up-tp-date with your location. This is required for main features to work properly when the app is not running.',
                 notificationIconColor: Colors.grey,
-                notificationTapCallback: LocationCallbackHandler.notificationCallback)));
+                notificationTapCallback:
+                    LocationCallbackHandler.notificationCallback)));
+  }
+
+  Future<void> _isLocationServiceEnabled() async {
+    final bool serviceEnabled =
+        await BackgroundLocator.isLocationServicesEnabled();
+    print('serviceEnabled: $serviceEnabled');
   }
 }

@@ -14,7 +14,8 @@ class SettingsUtil {
       void Function()? disposeCallback,
       AndroidSettings androidSettings = const AndroidSettings(),
       IOSSettings iosSettings = const IOSSettings()}) {
-    final args = _getCommonArgumentsMap(callback: callback,
+    final args = _getCommonArgumentsMap(
+        callback: callback,
         initCallback: initCallback,
         initDataCallback: initDataCallback,
         disposeCallback: disposeCallback);
@@ -28,12 +29,11 @@ class SettingsUtil {
     return args;
   }
 
-  static Map<String, dynamic> _getCommonArgumentsMap({
-    required void Function(LocationDto) callback,
-    void Function(Map<String, dynamic>)? initCallback,
-    Map<String, dynamic>? initDataCallback,
-    void Function()? disposeCallback
-  }) {
+  static Map<String, dynamic> _getCommonArgumentsMap(
+      {required void Function(LocationDto) callback,
+      void Function(Map<String, dynamic>)? initCallback,
+      Map<String, dynamic>? initDataCallback,
+      void Function()? disposeCallback}) {
     final Map<String, dynamic> args = {
       Keys.ARG_CALLBACK:
           PluginUtilities.getCallbackHandle(callback)!.toRawHandle(),
@@ -47,9 +47,8 @@ class SettingsUtil {
       args[Keys.ARG_DISPOSE_CALLBACK] =
           PluginUtilities.getCallbackHandle(disposeCallback)!.toRawHandle();
     }
-    if (initDataCallback != null ){
+    if (initDataCallback != null) {
       args[Keys.ARG_INIT_DATA_CALLBACK] = initDataCallback;
-
     }
 
     return args;

@@ -62,6 +62,11 @@ class BackgroundLocator {
         .invokeMethod<bool>(Keys.METHOD_PLUGIN_IS_SERVICE_RUNNING))!;
   }
 
+  static Future<bool> isLocationServicesEnabled() async {
+    return (await _channel
+        .invokeMethod<bool>(Keys.METHOD_PLUGIN_IS_LOCATION_SERVICES_ENABLED))!;
+  }
+
   static Future<void> updateNotificationText(
       {String? title, String? msg, String? bigMsg}) async {
     final Map<String, dynamic> arg = {};
